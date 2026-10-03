@@ -1,5 +1,6 @@
 using FinalProjectAPI.Data;
-using FinalProjectAPI.DTOs;
+using FinalProjectAPI.Helpers.DTOs.Product;
+using FinalProjectAPI.Helpers.DTOs.ProductImage;
 using FinalProjectAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,7 +64,6 @@ namespace FinalProjectAPI.Services
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            // Load navigation properties
             await _context.Entry(product)
                 .Reference(p => p.Category)
                 .LoadAsync();

@@ -1,4 +1,4 @@
-using FinalProjectAPI.DTOs;
+using FinalProjectAPI.Helpers.DTOs.Product;
 
 namespace FinalProjectAPI.Services
 {

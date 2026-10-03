@@ -1,4 +1,4 @@
-namespace FinalProjectAPI.DTOs
+namespace FinalProjectAPI.Helpers.DTOs.ProductImage
 {
     public class UpdateProductImageDto
     {

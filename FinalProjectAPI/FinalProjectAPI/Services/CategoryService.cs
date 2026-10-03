@@ -1,5 +1,5 @@
 using FinalProjectAPI.Data;
-using FinalProjectAPI.DTOs;
+using FinalProjectAPI.Helpers.DTOs.Category;
 using FinalProjectAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 

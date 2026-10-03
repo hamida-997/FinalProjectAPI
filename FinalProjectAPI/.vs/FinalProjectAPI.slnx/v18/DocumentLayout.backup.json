@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\services\\productimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\services\\productimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\helpers\\dtos\\product\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\helpers\\dtos\\product\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\controllers\\productimagescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\controllers\\productimagescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\migrations\\20261002121925_createdtables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,32 +54,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ProductService.cs",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductService.cs",
-              "RelativeDocumentMoniker": "FinalProjectAPI\\Services\\ProductService.cs",
-              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductService.cs",
-              "RelativeToolTip": "FinalProjectAPI\\Services\\ProductService.cs",
-              "ViewState": "AgIAAF8AAAAAAAAAAAAwwEIAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ProductDto.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Helpers\\DTOs\\Product\\ProductDto.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Helpers\\DTOs\\Product\\ProductDto.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Helpers\\DTOs\\Product\\ProductDto.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Helpers\\DTOs\\Product\\ProductDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-03T11:15:45.991Z",
+              "WhenOpened": "2026-10-03T13:10:03.029Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductImageService.cs",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductImageService.cs",
-              "RelativeDocumentMoniker": "FinalProjectAPI\\Services\\ProductImageService.cs",
-              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductImageService.cs",
-              "RelativeToolTip": "FinalProjectAPI\\Services\\ProductImageService.cs",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAUwGMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ProductImagesController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\ProductImagesController.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Controllers\\ProductImagesController.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\ProductImagesController.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Controllers\\ProductImagesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-03T11:15:18.129Z",
+              "WhenOpened": "2026-10-03T13:05:50.465Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T13:04:59.287Z",
               "EditorCaption": ""
             },
             {
@@ -88,7 +113,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Services\\ProductService.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductService.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Services\\ProductService.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAUwEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T11:15:45.991Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductImageService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductImageService.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Services\\ProductImageService.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\ProductImageService.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Services\\ProductImageService.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAwwGEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-03T11:15:18.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "20261002121925_CreatedTables.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Migrations\\20261002121925_CreatedTables.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Migrations\\20261002121925_CreatedTables.cs",
@@ -96,12 +147,11 @@
               "RelativeToolTip": "FinalProjectAPI\\Migrations\\20261002121925_CreatedTables.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-02T12:19:25.764Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-02T12:19:25.764Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\appsettings.Development.json",
               "RelativeDocumentMoniker": "FinalProjectAPI\\appsettings.Development.json",
@@ -113,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Data\\AppDbContext.cs",
@@ -125,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "ProductImage.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Entities\\ProductImage.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Entities\\ProductImage.cs",
@@ -137,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "Product.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Entities\\Product.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Entities\\Product.cs",
@@ -149,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Category.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Entities\\Category.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Entities\\Category.cs",

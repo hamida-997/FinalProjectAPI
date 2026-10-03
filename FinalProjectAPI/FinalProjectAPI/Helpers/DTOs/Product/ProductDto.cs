@@ -1,4 +1,6 @@
-namespace FinalProjectAPI.DTOs
+using FinalProjectAPI.Helpers.DTOs.ProductImage;
+
+namespace FinalProjectAPI.Helpers.DTOs.Product
 {
     public class ProductDto
     {

@@ -1,5 +1,5 @@
 using FinalProjectAPI.Data;
-using FinalProjectAPI.DTOs;
+using FinalProjectAPI.Helpers.DTOs.ProductImage;
 using FinalProjectAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -93,10 +93,8 @@ namespace FinalProjectAPI.Services
             if (image == null)
                 return false;
 
-            // Unset all primary images for this product
             await UnsetPrimaryImagesAsync(productId);
 
-            // Set this image as primary
             image.IsPrimary = true;
             await _context.SaveChangesAsync();
 

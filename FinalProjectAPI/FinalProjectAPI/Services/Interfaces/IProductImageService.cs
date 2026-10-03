@@ -1,4 +1,4 @@
-using FinalProjectAPI.DTOs;
+using FinalProjectAPI.Helpers.DTOs.ProductImage;
 
 namespace FinalProjectAPI.Services
 {
