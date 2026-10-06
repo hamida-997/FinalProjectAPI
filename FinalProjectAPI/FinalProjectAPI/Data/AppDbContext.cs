@@ -12,6 +12,8 @@ namespace FinalProjectAPI.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -92,6 +94,77 @@ namespace FinalProjectAPI.Data
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasIndex(pi => pi.ProductId);
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(o => o.Id);
+
+                entity.Property(o => o.CustomerName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(o => o.CustomerEmail)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(o => o.CustomerPhone)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(o => o.ShippingAddress)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(o => o.TotalAmount)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(o => o.Status)
+                    .IsRequired()
+                    .HasConversion<int>();
+
+                entity.Property(o => o.OrderDate)
+                    .IsRequired();
+
+                entity.Property(o => o.Notes)
+                    .HasMaxLength(1000);
+
+                entity.HasIndex(o => o.OrderDate);
+                entity.HasIndex(o => o.CustomerEmail);
+            });
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.HasKey(oi => oi.Id);
+
+                entity.Property(oi => oi.ProductName)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(oi => oi.Quantity)
+                    .IsRequired();
+
+                entity.Property(oi => oi.UnitPrice)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(oi => oi.TotalPrice)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.HasOne(oi => oi.Order)
+                    .WithMany(o => o.OrderItems)
+                    .HasForeignKey(oi => oi.OrderId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(oi => oi.Product)
+                    .WithMany()
+                    .HasForeignKey(oi => oi.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(oi => oi.OrderId);
+                entity.HasIndex(oi => oi.ProductId);
             });
         }
     }

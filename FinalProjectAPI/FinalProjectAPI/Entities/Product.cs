@@ -10,7 +10,7 @@ namespace FinalProjectAPI.Entities
         public int CategoryId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
-        public virtual Category Category { get; set; } = null!;
-        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        public Category Category { get; set; } = null!;
+        public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
     }
 }
