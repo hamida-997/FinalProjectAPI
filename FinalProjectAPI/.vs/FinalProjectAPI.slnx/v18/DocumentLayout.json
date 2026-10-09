@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,27 +27,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "OrdersController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\OrdersController.cs",
-              "RelativeDocumentMoniker": "FinalProjectAPI\\Controllers\\OrdersController.cs",
-              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\OrdersController.cs",
-              "RelativeToolTip": "FinalProjectAPI\\Controllers\\OrdersController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Program.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Program.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB8AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T15:04:06.392Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CategoriesController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\CategoriesController.cs",
-              "RelativeDocumentMoniker": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
-              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\CategoriesController.cs",
-              "RelativeToolTip": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAowAgAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T09:07:56.971Z",
+              "WhenOpened": "2026-10-09T15:50:10.478Z",
               "EditorCaption": ""
             },
             {
@@ -61,6 +52,31 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Controllers\\OrdersController.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T15:04:06.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAowAgAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T09:07:56.971Z"
             }
           ]
         }
