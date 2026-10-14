@@ -1,3 +1,4 @@
+using AutoMapper;
 using FinalProjectAPI.Data;
 using FinalProjectAPI.Helpers.DTOs.ProductImage;
 using FinalProjectAPI.Entities;
@@ -8,10 +9,12 @@ namespace FinalProjectAPI.Services
     public class ProductImageService : IProductImageService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductImageService(AppDbContext context)
+        public ProductImageService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<ProductImageDto>> GetImagesByProductIdAsync(int productId)
@@ -22,13 +25,13 @@ namespace FinalProjectAPI.Services
                 .ThenBy(img => img.CreatedAt)
                 .ToListAsync();
 
-            return images.Select(img => MapToDto(img));
+            return _mapper.Map<IEnumerable<ProductImageDto>>(images);
         }
 
         public async Task<ProductImageDto?> GetImageByIdAsync(int id)
         {
             var image = await _context.ProductImages.FindAsync(id);
-            return image == null ? null : MapToDto(image);
+            return image == null ? null : _mapper.Map<ProductImageDto>(image);
         }
 
         public async Task<ProductImageDto> CreateImageAsync(CreateProductImageDto createDto)
@@ -39,18 +42,12 @@ namespace FinalProjectAPI.Services
                 await UnsetPrimaryImagesAsync(createDto.ProductId);
             }
 
-            var image = new ProductImage
-            {
-                ImageUrl = createDto.ImageUrl,
-                IsPrimary = createDto.IsPrimary,
-                ProductId = createDto.ProductId,
-                CreatedAt = DateTime.UtcNow
-            };
+            var image = _mapper.Map<ProductImage>(createDto);
 
             _context.ProductImages.Add(image);
             await _context.SaveChangesAsync();
 
-            return MapToDto(image);
+            return _mapper.Map<ProductImageDto>(image);
         }
 
         public async Task<ProductImageDto?> UpdateImageAsync(int id, UpdateProductImageDto updateDto)
@@ -65,12 +62,11 @@ namespace FinalProjectAPI.Services
                 await UnsetPrimaryImagesAsync(image.ProductId);
             }
 
-            image.ImageUrl = updateDto.ImageUrl;
-            image.IsPrimary = updateDto.IsPrimary;
+            _mapper.Map(updateDto, image);
 
             await _context.SaveChangesAsync();
 
-            return MapToDto(image);
+            return _mapper.Map<ProductImageDto>(image);
         }
 
         public async Task<bool> DeleteImageAsync(int id)
@@ -116,18 +112,6 @@ namespace FinalProjectAPI.Services
             {
                 await _context.SaveChangesAsync();
             }
-        }
-
-        private static ProductImageDto MapToDto(ProductImage image)
-        {
-            return new ProductImageDto
-            {
-                Id = image.Id,
-                ImageUrl = image.ImageUrl,
-                IsPrimary = image.IsPrimary,
-                ProductId = image.ProductId,
-                CreatedAt = image.CreatedAt
-            };
         }
     }
 }

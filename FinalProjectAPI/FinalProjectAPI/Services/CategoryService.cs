@@ -1,3 +1,4 @@
+using AutoMapper;
 using FinalProjectAPI.Data;
 using FinalProjectAPI.Helpers.DTOs.Category;
 using FinalProjectAPI.Entities;
@@ -8,10 +9,12 @@ namespace FinalProjectAPI.Services
     public class CategoryService : ICategoryService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoryService(AppDbContext context)
+        public CategoryService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync()
@@ -20,29 +23,23 @@ namespace FinalProjectAPI.Services
                 .OrderBy(c => c.Name)
                 .ToListAsync();
 
-            return categories.Select(c => MapToDto(c));
+            return _mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
 
         public async Task<CategoryDto?> GetCategoryByIdAsync(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-            return category == null ? null : MapToDto(category);
+            return category == null ? null : _mapper.Map<CategoryDto>(category);
         }
 
         public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto createDto)
         {
-            var category = new Category
-            {
-                Name = createDto.Name,
-                Description = createDto.Description,
-                IsActive = createDto.IsActive,
-                CreatedAt = DateTime.UtcNow
-            };
+            var category = _mapper.Map<Category>(createDto);
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return MapToDto(category);
+            return _mapper.Map<CategoryDto>(category);
         }
 
         public async Task<CategoryDto?> UpdateCategoryAsync(int id, UpdateCategoryDto updateDto)
@@ -51,14 +48,11 @@ namespace FinalProjectAPI.Services
             if (category == null)
                 return null;
 
-            category.Name = updateDto.Name;
-            category.Description = updateDto.Description;
-            category.IsActive = updateDto.IsActive;
-            category.UpdatedAt = DateTime.UtcNow;
+            _mapper.Map(updateDto, category);
 
             await _context.SaveChangesAsync();
 
-            return MapToDto(category);
+            return _mapper.Map<CategoryDto>(category);
         }
 
         public async Task<bool> DeleteCategoryAsync(int id)
@@ -76,19 +70,6 @@ namespace FinalProjectAPI.Services
         public async Task<bool> CategoryExistsAsync(int id)
         {
             return await _context.Categories.AnyAsync(c => c.Id == id);
-        }
-
-        private static CategoryDto MapToDto(Category category)
-        {
-            return new CategoryDto
-            {
-                Id = category.Id,
-                Name = category.Name,
-                Description = category.Description,
-                IsActive = category.IsActive,
-                CreatedAt = category.CreatedAt,
-                UpdatedAt = category.UpdatedAt
-            };
         }
     }
 }

@@ -1,6 +1,6 @@
+using AutoMapper;
 using FinalProjectAPI.Data;
 using FinalProjectAPI.Helpers.DTOs.Product;
-using FinalProjectAPI.Helpers.DTOs.ProductImage;
 using FinalProjectAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +9,12 @@ namespace FinalProjectAPI.Services
     public class ProductService : IProductService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductService(AppDbContext context)
+        public ProductService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
@@ -23,7 +25,7 @@ namespace FinalProjectAPI.Services
                 .OrderBy(p => p.Name)
                 .ToListAsync();
 
-            return products.Select(p => MapToDto(p));
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(int categoryId)
@@ -35,7 +37,7 @@ namespace FinalProjectAPI.Services
                 .OrderBy(p => p.Name)
                 .ToListAsync();
 
-            return products.Select(p => MapToDto(p));
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public async Task<ProductDto?> GetProductByIdAsync(int id)
@@ -45,21 +47,12 @@ namespace FinalProjectAPI.Services
                 .Include(p => p.ProductImages)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-            return product == null ? null : MapToDto(product);
+            return product == null ? null : _mapper.Map<ProductDto>(product);
         }
 
         public async Task<ProductDto> CreateProductAsync(CreateProductDto createDto)
         {
-            var product = new Product
-            {
-                Name = createDto.Name,
-                Description = createDto.Description,
-                Price = createDto.Price,
-                StockQuantity = createDto.StockQuantity,
-                IsAvailable = createDto.IsAvailable,
-                CategoryId = createDto.CategoryId,
-                CreatedAt = DateTime.UtcNow
-            };
+            var product = _mapper.Map<Product>(createDto);
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -68,7 +61,7 @@ namespace FinalProjectAPI.Services
                 .Reference(p => p.Category)
                 .LoadAsync();
 
-            return MapToDto(product);
+            return _mapper.Map<ProductDto>(product);
         }
 
         public async Task<ProductDto?> UpdateProductAsync(int id, UpdateProductDto updateDto)
@@ -81,17 +74,11 @@ namespace FinalProjectAPI.Services
             if (product == null)
                 return null;
 
-            product.Name = updateDto.Name;
-            product.Description = updateDto.Description;
-            product.Price = updateDto.Price;
-            product.StockQuantity = updateDto.StockQuantity;
-            product.IsAvailable = updateDto.IsAvailable;
-            product.CategoryId = updateDto.CategoryId;
-            product.UpdatedAt = DateTime.UtcNow;
+            _mapper.Map(updateDto, product);
 
             await _context.SaveChangesAsync();
 
-            return MapToDto(product);
+            return _mapper.Map<ProductDto>(product);
         }
 
         public async Task<bool> DeleteProductAsync(int id)
@@ -109,31 +96,6 @@ namespace FinalProjectAPI.Services
         public async Task<bool> ProductExistsAsync(int id)
         {
             return await _context.Products.AnyAsync(p => p.Id == id);
-        }
-
-        private static ProductDto MapToDto(Product product)
-        {
-            return new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                StockQuantity = product.StockQuantity,
-                IsAvailable = product.IsAvailable,
-                CategoryId = product.CategoryId,
-                CategoryName = product.Category?.Name ?? string.Empty,
-                CreatedAt = product.CreatedAt,
-                UpdatedAt = product.UpdatedAt,
-                Images = product.ProductImages?.Select(img => new ProductImageDto
-                {
-                    Id = img.Id,
-                    ImageUrl = img.ImageUrl,
-                    IsPrimary = img.IsPrimary,
-                    ProductId = img.ProductId,
-                    CreatedAt = img.CreatedAt
-                }).ToList() ?? new List<ProductImageDto>()
-            };
         }
     }
 }

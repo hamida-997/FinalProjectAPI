@@ -1,6 +1,6 @@
+using AutoMapper;
 using FinalProjectAPI.Data;
 using FinalProjectAPI.Helpers.DTOs.Order;
-using FinalProjectAPI.Helpers.DTOs.OrderItem;
 using FinalProjectAPI.Helpers.Enums;
 using FinalProjectAPI.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +10,12 @@ namespace FinalProjectAPI.Services
     public class OrderService : IOrderService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public OrderService(AppDbContext context)
+        public OrderService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
@@ -24,7 +26,7 @@ namespace FinalProjectAPI.Services
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
-            return orders.Select(o => MapToDto(o));
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
         }
 
         public async Task<IEnumerable<OrderDto>> GetOrdersByStatusAsync(OrderStatus status)
@@ -36,7 +38,7 @@ namespace FinalProjectAPI.Services
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
-            return orders.Select(o => MapToDto(o));
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
         }
 
         public async Task<IEnumerable<OrderDto>> GetOrdersByCustomerEmailAsync(string email)
@@ -48,7 +50,7 @@ namespace FinalProjectAPI.Services
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
-            return orders.Select(o => MapToDto(o));
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
         }
 
         public async Task<OrderDto?> GetOrderByIdAsync(int id)
@@ -58,22 +60,12 @@ namespace FinalProjectAPI.Services
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
-            return order == null ? null : MapToDto(order);
+            return order == null ? null : _mapper.Map<OrderDto>(order);
         }
 
         public async Task<OrderDto> CreateOrderAsync(CreateOrderDto createDto)
         {
-            var order = new Order
-            {
-                CustomerName = createDto.CustomerName,
-                CustomerEmail = createDto.CustomerEmail,
-                CustomerPhone = createDto.CustomerPhone,
-                ShippingAddress = createDto.ShippingAddress,
-                Notes = createDto.Notes,
-                Status = OrderStatus.Pending,
-                OrderDate = DateTime.UtcNow,
-                TotalAmount = 0 
-            };
+            var order = _mapper.Map<Order>(createDto);
 
             decimal totalAmount = 0;
             foreach (var itemDto in createDto.OrderItems)
@@ -106,7 +98,7 @@ namespace FinalProjectAPI.Services
                 .Include(oi => oi.Product)
                 .LoadAsync();
 
-            return MapToDto(order);
+            return _mapper.Map<OrderDto>(order);
         }
 
         public async Task<OrderDto?> UpdateOrderStatusAsync(int id, UpdateOrderStatusDto updateDto)
@@ -124,7 +116,7 @@ namespace FinalProjectAPI.Services
 
             await _context.SaveChangesAsync();
 
-            return MapToDto(order);
+            return _mapper.Map<OrderDto>(order);
         }
 
         public async Task<bool> CancelOrderAsync(int id)
@@ -145,34 +137,6 @@ namespace FinalProjectAPI.Services
         public async Task<bool> OrderExistsAsync(int id)
         {
             return await _context.Orders.AnyAsync(o => o.Id == id);
-        }
-
-        private static OrderDto MapToDto(Order order)
-        {
-            return new OrderDto
-            {
-                Id = order.Id,
-                CustomerName = order.CustomerName,
-                CustomerEmail = order.CustomerEmail,
-                CustomerPhone = order.CustomerPhone,
-                ShippingAddress = order.ShippingAddress,
-                TotalAmount = order.TotalAmount,
-                Status = order.Status,
-                StatusName = order.Status.ToString(),
-                OrderDate = order.OrderDate,
-                DeliveryDate = order.DeliveryDate,
-                Notes = order.Notes,
-                OrderItems = order.OrderItems?.Select(oi => new OrderItemDto
-                {
-                    Id = oi.Id,
-                    OrderId = oi.OrderId,
-                    ProductId = oi.ProductId,
-                    ProductName = oi.ProductName,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice,
-                    TotalPrice = oi.TotalPrice
-                }).ToList() ?? new List<OrderItemDto>()
-            };
         }
     }
 }
