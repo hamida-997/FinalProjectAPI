@@ -1,9 +1,11 @@
 using FinalProjectAPI.Entities;
+using FinalProjectAPI.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalProjectAPI.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -18,6 +20,26 @@ namespace FinalProjectAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AppUser>(entity =>
+            {
+                entity.Property(u => u.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(u => u.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(u => u.Address)
+                    .HasMaxLength(500);
+
+                entity.Property(u => u.CreatedAt)
+                    .IsRequired();
+
+                entity.Property(u => u.IsActive)
+                    .HasDefaultValue(true);
+            });
 
             modelBuilder.Entity<Category>(entity =>
             {
