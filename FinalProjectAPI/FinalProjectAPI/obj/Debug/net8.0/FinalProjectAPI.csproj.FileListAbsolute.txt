@@ -154,4 +154,4 @@ c:\Users\User\OneDrive\Desktop\FinalProjectAPI\FinalProjectAPI\FinalProjectAPI\b
 c:\Users\User\OneDrive\Desktop\FinalProjectAPI\FinalProjectAPI\FinalProjectAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 c:\Users\User\OneDrive\Desktop\FinalProjectAPI\FinalProjectAPI\FinalProjectAPI\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 c:\Users\User\OneDrive\Desktop\FinalProjectAPI\FinalProjectAPI\FinalProjectAPI\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
-C:\Users\User\OneDrive\Desktop\FinalProjectAPI\FinalProjectAPI\FinalProjectAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+c:\Users\User\OneDrive\Desktop\FinalProjectAPI\FinalProjectAPI\FinalProjectAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

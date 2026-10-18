@@ -1,5 +1,4 @@
 using FinalProjectAPI.Entities;
-using FinalProjectAPI.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

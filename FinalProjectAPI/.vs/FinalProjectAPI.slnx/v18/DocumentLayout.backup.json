@@ -56,7 +56,7 @@
               "RelativeDocumentMoniker": "FinalProjectAPI\\Migrations\\20261016110356_UpdatedTables.cs",
               "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Migrations\\20261016110356_UpdatedTables.cs",
               "RelativeToolTip": "FinalProjectAPI\\Migrations\\20261016110356_UpdatedTables.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBgAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-16T11:03:56.879Z",
               "EditorCaption": ""
@@ -84,7 +84,8 @@
               "RelativeToolTip": "FinalProjectAPI\\Program.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAAACIAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T15:50:10.478Z"
+              "WhenOpened": "2026-10-09T15:50:10.478Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -96,7 +97,8 @@
               "RelativeToolTip": "FinalProjectAPI\\Controllers\\OrdersController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T15:04:06.392Z"
+              "WhenOpened": "2026-10-09T15:04:06.392Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -108,7 +110,8 @@
               "RelativeToolTip": "FinalProjectAPI\\Controllers\\CategoriesController.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAowAgAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T09:07:56.971Z"
+              "WhenOpened": "2026-10-09T09:07:56.971Z",
+              "EditorCaption": ""
             }
           ]
         }
