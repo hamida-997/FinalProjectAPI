@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj": {}
+    "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj": {
+    "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
+        "projectUniqueName": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
         "projectName": "FinalProjectAPI",
-        "projectPath": "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
+        "projectPath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\obj\\",
+        "outputPath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
