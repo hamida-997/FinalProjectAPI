@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\helpers\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\helpers\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|solutionrelative:finalprojectapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DF0D9306-CF46-B7C9-6000-4C5930447069}|FinalProjectAPI\\FinalProjectAPI.csproj|c:\\users\\user\\onedrive\\desktop\\finalprojectapi\\finalprojectapi\\finalprojectapi\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,21 +34,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "FinalProjectAPI\\Services\\AuthService.cs",
-              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\AuthService.cs",
-              "RelativeToolTip": "FinalProjectAPI\\Services\\AuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-18T07:44:49.977Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -68,6 +55,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "FinalProjectAPI\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Services\\AuthService.cs",
+              "RelativeToolTip": "FinalProjectAPI\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-18T07:44:49.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "20261016110356_UpdatedTables.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Migrations\\20261016110356_UpdatedTables.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Migrations\\20261016110356_UpdatedTables.cs",
@@ -75,12 +75,11 @@
               "RelativeToolTip": "FinalProjectAPI\\Migrations\\20261016110356_UpdatedTables.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAABgAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-16T11:03:56.879Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-16T11:03:56.879Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MappingProfile.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Helpers\\Mappings\\MappingProfile.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Helpers\\Mappings\\MappingProfile.cs",
@@ -92,15 +91,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Program.cs",
               "RelativeDocumentMoniker": "FinalProjectAPI\\Program.cs",
               "ToolTip": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\Program.cs",
               "RelativeToolTip": "FinalProjectAPI\\Program.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAACIAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAIkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-09T15:50:10.478Z"
+              "WhenOpened": "2026-10-09T15:50:10.478Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
