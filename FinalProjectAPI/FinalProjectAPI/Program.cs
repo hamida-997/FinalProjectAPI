@@ -64,6 +64,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddCors(options =>
 {
