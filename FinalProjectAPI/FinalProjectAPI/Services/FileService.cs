@@ -3,12 +3,22 @@ namespace FinalProjectAPI.Services
     public class FileService : IFileService
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-        private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+        private readonly string[] _allowedExtensions;
+        private readonly long _maxFileSize;
 
-        public FileService(IWebHostEnvironment environment)
+        public FileService(IWebHostEnvironment environment, IConfiguration configuration)
         {
             _environment = environment;
+
+            var settings = configuration.GetSection("FileUploadSettings");
+
+            // Load allowed extensions from config, use defaults if not configured
+            _allowedExtensions = settings.GetSection("AllowedExtensions").Get<string[]>()
+                ?? new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+
+            // Load max file size in MB from config, default to 5 MB
+            var maxFileSizeInMB = settings.GetValue<int?>("MaxFileSizeInMB") ?? 5;
+            _maxFileSize = maxFileSizeInMB * 1024L * 1024L;
         }
 
         public async Task<string> SaveFileAsync(IFormFile file, string folder)
@@ -20,9 +30,9 @@ namespace FinalProjectAPI.Services
             }
 
             // Validate file size
-            if (file.Length > MaxFileSize)
+            if (file.Length > _maxFileSize)
             {
-                throw new ArgumentException($"File size exceeds the maximum allowed size of {MaxFileSize / 1024 / 1024} MB.");
+                throw new ArgumentException($"File size exceeds the maximum allowed size of {_maxFileSize / 1024 / 1024} MB.");
             }
 
             // Validate file extension
