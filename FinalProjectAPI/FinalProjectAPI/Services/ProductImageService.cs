@@ -10,11 +10,13 @@ namespace FinalProjectAPI.Services
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
 
-        public ProductImageService(AppDbContext context, IMapper mapper)
+        public ProductImageService(AppDbContext context, IMapper mapper, IFileService fileService)
         {
             _context = context;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<IEnumerable<ProductImageDto>> GetImagesByProductIdAsync(int productId)
@@ -75,8 +77,18 @@ namespace FinalProjectAPI.Services
             if (image == null)
                 return false;
 
+            // Save the image URL before removing from DB
+            var imageUrl = image.ImageUrl;
+
             _context.ProductImages.Remove(image);
             await _context.SaveChangesAsync();
+
+            // Delete the physical file from wwwroot
+            // Only delete locally stored files (not external URLs)
+            if (imageUrl.StartsWith("/uploads/"))
+            {
+                _fileService.DeleteFile(imageUrl);
+            }
 
             return true;
         }
