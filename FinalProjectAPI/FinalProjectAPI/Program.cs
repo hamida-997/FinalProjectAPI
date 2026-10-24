@@ -65,6 +65,7 @@ builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddCors(options =>
 {
@@ -128,6 +129,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Serve static files from wwwroot (for uploaded images)
+app.UseStaticFiles();
 
 // Use CORS - must be between UseHttpsRedirection and UseAuthentication
 app.UseCors("AllowMVC"); // Use "AllowAll" for testing if needed
