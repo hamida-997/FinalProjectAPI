@@ -10,11 +10,16 @@ namespace FinalProjectAPI.Controllers
     {
         private readonly IProductImageService _productImageService;
         private readonly IProductService _productService;
+        private readonly IFileService _fileService;
 
-        public ProductImagesController(IProductImageService productImageService, IProductService productService)
+        public ProductImagesController(
+            IProductImageService productImageService,
+            IProductService productService,
+            IFileService fileService)
         {
             _productImageService = productImageService;
             _productService = productService;
+            _fileService = fileService;
         }
 
         [HttpGet("Product/{productId}")]
@@ -57,6 +62,42 @@ namespace FinalProjectAPI.Controllers
 
             var image = await _productImageService.CreateImageAsync(createDto);
             return CreatedAtAction(nameof(GetProductImage), new { id = image.Id }, image);
+        }
+
+        [HttpPost("Upload")]
+        public async Task<ActionResult<ProductImageDto>> UploadProductImage(
+            [FromForm] IFormFile file,
+            [FromForm] int productId,
+            [FromForm] bool isPrimary = false)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest(new { message = "No file was provided." });
+            }
+
+            if (!await _productService.ProductExistsAsync(productId))
+            {
+                return BadRequest(new { message = $"Product with ID {productId} does not exist." });
+            }
+
+            try
+            {
+                var fileUrl = await _fileService.SaveFileAsync(file, "products");
+
+                var createDto = new CreateProductImageDto
+                {
+                    ProductId = productId,
+                    ImageUrl = fileUrl,
+                    IsPrimary = isPrimary
+                };
+
+                var image = await _productImageService.CreateImageAsync(createDto);
+                return CreatedAtAction(nameof(GetProductImage), new { id = image.Id }, image);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
