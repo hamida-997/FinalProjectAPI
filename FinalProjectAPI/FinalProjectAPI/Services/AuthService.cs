@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using FinalProjectAPI.Entities;
 using FinalProjectAPI.Helpers.DTOs.Auth;
+using FinalProjectAPI.Helpers.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -70,7 +71,13 @@ namespace FinalProjectAPI.Services
                 };
             }
 
-            var token = GenerateJwtToken(user, new List<string>());
+            // Assign SuperAdmin role to new user
+            // TODO: Change this to UserRole.Customer after your SuperAdmin account is created
+            var assignedRole = UserRole.SuperAdmin.ToString();
+            await _userManager.AddToRoleAsync(user, assignedRole);
+
+            var userRoles = new List<string> { assignedRole };
+            var token = GenerateJwtToken(user, userRoles);
             var expiresAt = DateTime.UtcNow.AddMinutes(
                 Convert.ToDouble(_configuration["JwtSettings:ExpirationInMinutes"] ?? "60"));
 
@@ -89,7 +96,7 @@ namespace FinalProjectAPI.Services
                     LastName = user.LastName,
                     PhoneNumber = user.PhoneNumber,
                     Address = user.Address,
-                    Roles = new List<string>()
+                    Roles = userRoles
                 }
             };
         }
