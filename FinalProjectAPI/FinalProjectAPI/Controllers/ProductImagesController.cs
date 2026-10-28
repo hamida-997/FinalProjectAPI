@@ -1,5 +1,6 @@
 using FinalProjectAPI.Helpers.DTOs.ProductImage;
 using FinalProjectAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectAPI.Controllers
@@ -48,6 +49,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<ProductImageDto>> CreateProductImage(CreateProductImageDto createDto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +67,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPost("Upload")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<ProductImageDto>> UploadProductImage(
             [FromForm] IFormFile file,
             [FromForm] int productId,
@@ -101,6 +104,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<ProductImageDto>> UpdateProductImage(int id, UpdateProductImageDto updateDto)
         {
             if (!ModelState.IsValid)
@@ -119,6 +123,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteProductImage(int id)
         {
             var result = await _productImageService.DeleteImageAsync(id);
@@ -132,6 +137,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPut("{id}/SetPrimary")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> SetPrimaryImage(int id, [FromQuery] int productId)
         {
             var result = await _productImageService.SetPrimaryImageAsync(productId, id);

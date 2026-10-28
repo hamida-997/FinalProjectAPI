@@ -1,5 +1,6 @@
 using FinalProjectAPI.Helpers.DTOs.Product;
 using FinalProjectAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectAPI.Controllers
@@ -50,6 +51,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createDto)
         {
             if (!ModelState.IsValid)
@@ -67,6 +69,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<ProductDto>> UpdateProduct(int id, UpdateProductDto updateDto)
         {
             if (!ModelState.IsValid)
@@ -90,6 +93,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var result = await _productService.DeleteProductAsync(id);

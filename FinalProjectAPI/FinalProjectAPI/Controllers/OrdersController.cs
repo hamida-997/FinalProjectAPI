@@ -1,12 +1,14 @@
 using FinalProjectAPI.Helpers.DTOs.Order;
 using FinalProjectAPI.Helpers.Enums;
 using FinalProjectAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -19,6 +21,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
@@ -39,6 +42,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpGet("Status/{status}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByStatus(OrderStatus status)
         {
             var orders = await _orderService.GetOrdersByStatusAsync(status);
@@ -84,6 +88,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPut("{id}/Status")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<OrderDto>> UpdateOrderStatus(int id, UpdateOrderStatusDto updateDto)
         {
             if (!ModelState.IsValid)

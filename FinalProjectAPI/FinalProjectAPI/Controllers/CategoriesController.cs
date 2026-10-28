@@ -1,5 +1,6 @@
 using FinalProjectAPI.Helpers.DTOs.Category;
 using FinalProjectAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProjectAPI.Controllers
@@ -36,6 +37,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<CategoryDto>> CreateCategory(CreateCategoryDto createDto)
         {
             if (!ModelState.IsValid)
@@ -48,6 +50,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, UpdateCategoryDto updateDto)
         {
             if (!ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace FinalProjectAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var result = await _categoryService.DeleteCategoryAsync(id);
