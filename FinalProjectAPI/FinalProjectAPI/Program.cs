@@ -1,6 +1,7 @@
 using System.Text;
 using FinalProjectAPI.Data;
 using FinalProjectAPI.Entities;
+using FinalProjectAPI.Helpers.Enums;
 using FinalProjectAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -121,6 +122,20 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+// Seed roles on application startup
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    foreach (var role in Enum.GetNames<UserRole>())
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {
