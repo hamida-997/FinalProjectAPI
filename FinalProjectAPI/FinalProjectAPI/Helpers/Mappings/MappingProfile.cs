@@ -5,6 +5,7 @@ using FinalProjectAPI.Helpers.DTOs.Order;
 using FinalProjectAPI.Helpers.DTOs.OrderItem;
 using FinalProjectAPI.Helpers.DTOs.Product;
 using FinalProjectAPI.Helpers.DTOs.ProductImage;
+using FinalProjectAPI.Helpers.DTOs.User;
 using FinalProjectAPI.Helpers.Enums;
 
 namespace FinalProjectAPI.Helpers.Mappings
@@ -70,6 +71,25 @@ namespace FinalProjectAPI.Helpers.Mappings
                 .ForMember(dest => dest.OrderItems, opt => opt.Ignore());
 
             CreateMap<OrderItem, OrderItemDto>();
+
+            CreateMap<AppUser, UserDto>();
+            
+            CreateMap<CreateUserDto, AppUser>()
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(_ => true))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.SecurityStamp, opt => opt.Ignore())
+                .ForMember(dest => dest.ConcurrencyStamp, opt => opt.Ignore());
+
+            CreateMap<UpdateUserDto, AppUser>()
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UserName, opt => opt.Ignore())
+                .ForMember(dest => dest.Email, opt => opt.Ignore())
+                .ForMember(dest => dest.SecurityStamp, opt => opt.Ignore())
+                .ForMember(dest => dest.ConcurrencyStamp, opt => opt.Ignore());
         }
     }
 }

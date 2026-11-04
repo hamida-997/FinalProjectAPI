@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LeDpkZVKtI8=",
+  "dgSpecHash": "zaDSOitV6BQ=",
   "success": true,
-  "projectFilePath": "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
+  "projectFilePath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\automapper\\16.2.0\\automapper.16.2.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
@@ -98,9 +98,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "Package 'MailKit' 4.9.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-9j88-vvj5-vhgr",
-      "projectPath": "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
+      "projectPath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
       "warningLevel": 1,
-      "filePath": "c:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
+      "filePath": "C:\\Users\\User\\OneDrive\\Desktop\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI\\FinalProjectAPI.csproj",
       "libraryId": "MailKit",
       "targetGraphs": [
         "net8.0"
