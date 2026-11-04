@@ -13,6 +13,15 @@ namespace FinalProjectAPI.Entities
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public DateTime? DeliveryDate { get; set; }
         public string? Notes { get; set; }
+
+        // Account that placed the order (null for orders created before checkout existed)
+        public string? UserId { get; set; }
+
+        // Payment
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Unpaid;
+        public string? StripeSessionId { get; set; }
+        public DateTime? PaidAt { get; set; }
+
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

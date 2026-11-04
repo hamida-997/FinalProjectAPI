@@ -60,6 +60,7 @@ namespace FinalProjectAPI.Helpers.Mappings
 
             CreateMap<Order, OrderDto>()
                 .ForMember(dest => dest.StatusName, opt => opt.MapFrom(src => src.Status.ToString()))
+                .ForMember(dest => dest.PaymentStatusName, opt => opt.MapFrom(src => src.PaymentStatus.ToString()))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
 
             CreateMap<CreateOrderDto, Order>()
@@ -68,7 +69,11 @@ namespace FinalProjectAPI.Helpers.Mappings
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.TotalAmount, opt => opt.Ignore())
                 .ForMember(dest => dest.DeliveryDate, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderItems, opt => opt.Ignore());
+                .ForMember(dest => dest.OrderItems, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.PaymentStatus, opt => opt.Ignore())
+                .ForMember(dest => dest.StripeSessionId, opt => opt.Ignore())
+                .ForMember(dest => dest.PaidAt, opt => opt.Ignore());
 
             CreateMap<OrderItem, OrderItemDto>();
 

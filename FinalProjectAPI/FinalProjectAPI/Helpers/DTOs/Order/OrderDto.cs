@@ -16,6 +16,10 @@ namespace FinalProjectAPI.Helpers.DTOs.Order
         public DateTime OrderDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public string? Notes { get; set; }
+        public string? UserId { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
+        public string PaymentStatusName { get; set; } = string.Empty;
+        public DateTime? PaidAt { get; set; }
         public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
     }
 }

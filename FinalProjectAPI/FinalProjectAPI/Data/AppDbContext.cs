@@ -151,8 +151,25 @@ namespace FinalProjectAPI.Data
                 entity.Property(o => o.Notes)
                     .HasMaxLength(1000);
 
+                entity.Property(o => o.PaymentStatus)
+                    .IsRequired()
+                    .HasConversion<int>()
+                    .HasDefaultValue(Helpers.Enums.PaymentStatus.Unpaid);
+
+                entity.Property(o => o.StripeSessionId)
+                    .HasMaxLength(255);
+
+                entity.HasOne<AppUser>()
+                    .WithMany()
+                    .HasForeignKey(o => o.UserId)
+                    .OnDelete(DeleteBehavior.SetNull);
+
                 entity.HasIndex(o => o.OrderDate);
                 entity.HasIndex(o => o.CustomerEmail);
+                entity.HasIndex(o => o.UserId);
+                entity.HasIndex(o => o.StripeSessionId)
+                    .IsUnique()
+                    .HasFilter("[StripeSessionId] IS NOT NULL");
             });
 
             modelBuilder.Entity<OrderItem>(entity =>

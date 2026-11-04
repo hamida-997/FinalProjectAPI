@@ -72,7 +72,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowMVC", policy =>
     {
-        policy.WithOrigins("https://localhost:7000", "http://localhost:5000") // MVC app URLs
+        policy.WithOrigins(
+                "https://localhost:7069", 
+                "http://localhost:5207",
+                "https://localhost:7000", 
+                "http://localhost:5000") // MVC app URLs
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
