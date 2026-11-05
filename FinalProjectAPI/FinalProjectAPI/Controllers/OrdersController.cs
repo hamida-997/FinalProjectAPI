@@ -34,7 +34,8 @@ namespace FinalProjectAPI.Controllers
         {
             var order = await _orderService.GetOrderByIdAsync(id);
 
-            if (order == null)
+            // Return 404 (not 403) for other people's orders so IDs can't be probed
+            if (order == null || !CanAccess(order))
             {
                 return NotFound(new { message = $"Order with ID {id} not found." });
             }
@@ -53,6 +54,11 @@ namespace FinalProjectAPI.Controllers
         [HttpGet("Customer/{email}")]
         public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByCustomerEmail(string email)
         {
+            if (!IsAdmin && !string.Equals(email, CurrentEmail, StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
             var orders = await _orderService.GetOrdersByCustomerEmailAsync(email);
             return Ok(orders);
         }
@@ -100,14 +106,40 @@ namespace FinalProjectAPI.Controllers
         [HttpPut("{id}/Cancel")]
         public async Task<IActionResult> CancelOrder(int id)
         {
+            var order = await _orderService.GetOrderByIdAsync(id);
+            if (order == null || !CanAccess(order))
+            {
+                return NotFound(new { message = $"Order with ID {id} not found." });
+            }
+
             var result = await _orderService.CancelOrderAsync(id);
 
             if (!result)
             {
-                return BadRequest(new { message = $"Order with ID {id} cannot be cancelled. It may be already delivered or cancelled, or does not exist." });
+                return BadRequest(new { message = $"Order with ID {id} cannot be cancelled. It may be already delivered or cancelled." });
             }
 
             return Ok(new { message = "Order cancelled successfully." });
+        }
+
+        private bool IsAdmin => User.IsInRole("Admin") || User.IsInRole("SuperAdmin");
+
+        private string? CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // The JWT "email" claim may or may not be mapped to ClaimTypes.Email, so check both
+        private string? CurrentEmail => User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue("email");
+
+        private bool CanAccess(OrderDto order)
+        {
+            if (IsAdmin) return true;
+
+            // Orders placed through checkout are linked to the account
+            if (!string.IsNullOrEmpty(order.UserId))
+                return order.UserId == CurrentUserId;
+
+            // Older orders have no UserId; fall back to matching the email
+            return !string.IsNullOrEmpty(CurrentEmail)
+                && string.Equals(order.CustomerEmail, CurrentEmail, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
