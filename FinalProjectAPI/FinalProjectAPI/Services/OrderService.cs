@@ -63,24 +63,46 @@ namespace FinalProjectAPI.Services
             return order == null ? null : _mapper.Map<OrderDto>(order);
         }
 
-        public async Task<OrderDto> CreateOrderAsync(CreateOrderDto createDto)
+        public async Task<OrderDto> CreateOrderAsync(CreateOrderDto createDto, string? userId)
         {
+            // Merge duplicate lines so the stock check sees the real total per product
+            var requested = createDto.OrderItems
+                .GroupBy(i => i.ProductId)
+                .Select(g => new { ProductId = g.Key, Quantity = g.Sum(i => i.Quantity) })
+                .ToList();
+
+            if (requested.Count == 0)
+                throw new InvalidOperationException("Order must contain at least one item.");
+
+            var productIds = requested.Select(r => r.ProductId).ToList();
+            var products = await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id);
+
             var order = _mapper.Map<Order>(createDto);
+            order.UserId = userId;
 
             decimal totalAmount = 0;
-            foreach (var itemDto in createDto.OrderItems)
+            foreach (var item in requested)
             {
-                var product = await _context.Products.FindAsync(itemDto.ProductId);
-                if (product == null)
-                    continue;
+                if (!products.TryGetValue(item.ProductId, out var product))
+                    throw new InvalidOperationException($"Product with ID {item.ProductId} does not exist.");
 
+                if (!product.IsAvailable)
+                    throw new InvalidOperationException($"Product '{product.Name}' is not available.");
+
+                if (product.StockQuantity < item.Quantity)
+                    throw new InvalidOperationException(
+                        $"Insufficient stock for '{product.Name}'. Available: {product.StockQuantity}, requested: {item.Quantity}.");
+
+                // Price always comes from the database, never from the client
                 var orderItem = new OrderItem
                 {
                     ProductId = product.Id,
                     ProductName = product.Name,
-                    Quantity = itemDto.Quantity,
+                    Quantity = item.Quantity,
                     UnitPrice = product.Price,
-                    TotalPrice = product.Price * itemDto.Quantity
+                    TotalPrice = product.Price * item.Quantity
                 };
 
                 order.OrderItems.Add(orderItem);

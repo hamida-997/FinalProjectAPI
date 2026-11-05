@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using FinalProjectAPI.Helpers.DTOs.Order;
 using FinalProjectAPI.Helpers.Enums;
 using FinalProjectAPI.Services;
@@ -64,27 +65,17 @@ namespace FinalProjectAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            foreach (var item in createDto.OrderItems)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            try
             {
-                var product = await _productService.GetProductByIdAsync(item.ProductId);
-                if (product == null)
-                {
-                    return BadRequest(new { message = $"Product with ID {item.ProductId} does not exist." });
-                }
-
-                if (!product.IsAvailable)
-                {
-                    return BadRequest(new { message = $"Product '{product.Name}' is not available." });
-                }
-
-                if (product.StockQuantity < item.Quantity)
-                {
-                    return BadRequest(new { message = $"Insufficient stock for product '{product.Name}'. Available: {product.StockQuantity}, Requested: {item.Quantity}" });
-                }
+                var order = await _orderService.CreateOrderAsync(createDto, userId);
+                return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
             }
-
-            var order = await _orderService.CreateOrderAsync(createDto);
-            return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}/Status")]
