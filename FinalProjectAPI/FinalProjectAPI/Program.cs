@@ -2,6 +2,7 @@ using System.Text;
 using FinalProjectAPI.Data;
 using FinalProjectAPI.Entities;
 using FinalProjectAPI.Helpers.Enums;
+using FinalProjectAPI.Helpers.Settings;
 using FinalProjectAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -59,6 +60,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection(StripeSettings.SectionName));
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
