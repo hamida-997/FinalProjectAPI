@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using FinalProjectAPI.Helpers.DTOs.Order;
+using FinalProjectAPI.Helpers.DTOs.Payment;
 using FinalProjectAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -68,6 +69,44 @@ namespace FinalProjectAPI.Controllers
                 return StatusCode(StatusCodes.Status502BadGateway,
                     new { message = "Payment could not be started. Please try again later." });
             }
+        }
+
+        // POST: api/Payments/confirm
+        // Called by the MVC success page after Stripe redirects back.
+        [HttpPost("confirm")]
+        public async Task<ActionResult<OrderDto>> Confirm(ConfirmPaymentDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int orderId;
+            try
+            {
+                orderId = await _paymentService.ConfirmPaymentAsync(dto.SessionId);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (StripeException ex)
+            {
+                _logger.LogError(ex, "Failed to verify Stripe session {SessionId}", dto.SessionId);
+                return StatusCode(StatusCodes.Status502BadGateway,
+                    new { message = "Payment could not be verified. Please try again later." });
+            }
+
+            var order = await _orderService.GetOrderByIdAsync(orderId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAdmin = User.IsInRole("Admin") || User.IsInRole("SuperAdmin");
+
+            if (order == null || (!isAdmin && order.UserId != userId))
+            {
+                return NotFound(new { message = "Order not found." });
+            }
+
+            return Ok(order);
         }
     }
 }
