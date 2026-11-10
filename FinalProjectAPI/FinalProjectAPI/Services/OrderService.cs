@@ -109,6 +109,9 @@ namespace FinalProjectAPI.Services
                 totalAmount += orderItem.TotalPrice;
             }
 
+            // No discount yet; B5 applies codes here
+            order.Subtotal = totalAmount;
+            order.DiscountAmount = 0;
             order.TotalAmount = totalAmount;
 
             _context.Orders.Add(order);

@@ -153,6 +153,23 @@ namespace FinalProjectAPI.Data
                 entity.Property(o => o.Notes)
                     .HasMaxLength(1000);
 
+                entity.Property(o => o.Subtotal)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(o => o.DiscountAmount)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)")
+                    .HasDefaultValue(0m);
+
+                entity.Property(o => o.DiscountCode)
+                    .HasMaxLength(50);
+
+                entity.ToTable(t =>
+                {
+                    t.HasCheckConstraint("CK_Orders_DiscountAmount", "[DiscountAmount] >= 0 AND [DiscountAmount] <= [Subtotal]");
+                });
+
                 entity.Property(o => o.PaymentStatus)
                     .IsRequired()
                     .HasConversion<int>()

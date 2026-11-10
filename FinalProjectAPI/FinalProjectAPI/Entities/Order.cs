@@ -8,6 +8,16 @@ namespace FinalProjectAPI.Entities
         public string CustomerEmail { get; set; } = string.Empty;
         public string CustomerPhone { get; set; } = string.Empty;
         public string ShippingAddress { get; set; } = string.Empty;
+        // Sum of order items before any discount
+        public decimal Subtotal { get; set; }
+
+        // Discount applied to this order (0 when no code was used)
+        public decimal DiscountAmount { get; set; }
+
+        // The code as entered, kept even if the code is later edited or deleted
+        public string? DiscountCode { get; set; }
+
+        // Amount charged: Subtotal - DiscountAmount
         public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
