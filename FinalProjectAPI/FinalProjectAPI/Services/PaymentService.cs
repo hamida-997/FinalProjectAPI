@@ -76,6 +76,27 @@ namespace FinalProjectAPI.Services
                 }
             };
 
+            // Show the discount on Stripe's page with a single-use coupon for this order's exact
+            // amount. Stripe's total then equals order.TotalAmount, which Confirm checks.
+            if (order.DiscountAmount > 0)
+            {
+                var couponName = string.IsNullOrEmpty(order.DiscountCode) ? "Discount" : order.DiscountCode;
+                var coupon = await new CouponService(_stripeClient).CreateAsync(new CouponCreateOptions
+                {
+                    AmountOff = ToSmallestUnit(order.DiscountAmount),
+                    Currency = _settings.Currency,
+                    Duration = "once",
+                    MaxRedemptions = 1,
+                    Name = couponName.Length > 40 ? couponName[..40] : couponName,
+                    Metadata = new Dictionary<string, string> { ["orderId"] = order.Id.ToString() }
+                });
+
+                options.Discounts = new List<SessionDiscountOptions>
+                {
+                    new() { Coupon = coupon.Id }
+                };
+            }
+
             var sessionService = new SessionService(_stripeClient);
             var session = await sessionService.CreateAsync(options);
 
@@ -103,7 +124,12 @@ namespace FinalProjectAPI.Services
             // Never trust the redirect alone: ask Stripe whether the session is paid
             var session = await new SessionService(_stripeClient).GetAsync(sessionId);
 
-            if (session.PaymentStatus != "paid")
+            // "no_payment_required" happens when a 100% discount makes the order free
+            var isPaid = session.PaymentStatus == "paid"
+                || (session.PaymentStatus == "no_payment_required" && order.TotalAmount == 0
+                    && session.Status == "complete");
+
+            if (!isPaid)
                 throw new InvalidOperationException("Payment has not been completed.");
 
             if (session.AmountTotal != ToSmallestUnit(order.TotalAmount))
@@ -158,6 +184,25 @@ namespace FinalProjectAPI.Services
                         await _context.Products
                             .Where(p => p.Id == item.ProductId)
                             .ExecuteUpdateAsync(s => s.SetProperty(p => p.StockQuantity, 0));
+                    }
+                }
+
+                // Count the code use only now that the order is paid. The condition keeps
+                // UsedCount from going over MaxUses even when payments confirm at the same time.
+                if (!string.IsNullOrEmpty(order.DiscountCode))
+                {
+                    var counted = await _context.DiscountCodes
+                        .Where(d => d.Code == order.DiscountCode
+                            && (d.MaxUses == null || d.UsedCount < d.MaxUses))
+                        .ExecuteUpdateAsync(s => s.SetProperty(d => d.UsedCount, d => d.UsedCount + 1));
+
+                    if (counted == 0)
+                    {
+                        // Limit reached (or code deleted) between checkout and payment.
+                        // The customer already paid the discounted price, so honor it.
+                        _logger.LogWarning(
+                            "Discount code {Code} on order {OrderId} could not be counted (limit reached or code removed)",
+                            order.DiscountCode, order.Id);
                     }
                 }
             }

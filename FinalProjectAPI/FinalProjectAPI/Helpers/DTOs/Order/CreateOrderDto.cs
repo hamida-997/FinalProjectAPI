@@ -26,6 +26,10 @@ namespace FinalProjectAPI.Helpers.DTOs.Order
         [StringLength(1000, ErrorMessage = "Notes cannot exceed 1000 characters.")]
         public string? Notes { get; set; }
 
+        // Optional. Validated and priced on the server; the client never sends an amount.
+        [StringLength(50, ErrorMessage = "Discount code cannot exceed 50 characters.")]
+        public string? DiscountCode { get; set; }
+
         [Required(ErrorMessage = "At least one order item is required.")]
         [MinLength(1, ErrorMessage = "Order must contain at least one item.")]
         public List<CreateOrderItemDto> OrderItems { get; set; } = new List<CreateOrderItemDto>();

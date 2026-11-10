@@ -9,13 +9,18 @@ namespace FinalProjectAPI.Services
 {
     public class OrderService : IOrderService
     {
+        // Stripe rejects card payments under $0.50 (USD). Free orders (total 0) are allowed.
+        private const decimal MinimumChargeAmount = 0.50m;
+
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IDiscountService _discountService;
 
-        public OrderService(AppDbContext context, IMapper mapper)
+        public OrderService(AppDbContext context, IMapper mapper, IDiscountService discountService)
         {
             _context = context;
             _mapper = mapper;
+            _discountService = discountService;
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
@@ -109,10 +114,25 @@ namespace FinalProjectAPI.Services
                 totalAmount += orderItem.TotalPrice;
             }
 
-            // No discount yet; B5 applies codes here
             order.Subtotal = totalAmount;
             order.DiscountAmount = 0;
-            order.TotalAmount = totalAmount;
+            order.DiscountCode = null;
+
+            if (!string.IsNullOrWhiteSpace(createDto.DiscountCode))
+            {
+                var discount = await _discountService.ValidateAsync(createDto.DiscountCode, totalAmount);
+                if (!discount.IsValid)
+                    throw new InvalidOperationException(discount.Message ?? "This discount code is not valid.");
+
+                order.DiscountAmount = discount.DiscountAmount;
+                order.DiscountCode = discount.Code;
+            }
+
+            order.TotalAmount = order.Subtotal - order.DiscountAmount;
+
+            if (order.TotalAmount > 0 && order.TotalAmount < MinimumChargeAmount)
+                throw new InvalidOperationException(
+                    $"The order total after discount must be at least ${MinimumChargeAmount:F2}.");
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
