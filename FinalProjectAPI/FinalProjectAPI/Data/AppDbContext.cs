@@ -15,6 +15,7 @@ namespace FinalProjectAPI.Data
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -203,6 +204,39 @@ namespace FinalProjectAPI.Data
 
                 entity.HasIndex(oi => oi.OrderId);
                 entity.HasIndex(oi => oi.ProductId);
+            });
+
+            modelBuilder.Entity<Review>(entity =>
+            {
+                entity.HasKey(r => r.Id);
+
+                entity.ToTable(t => t.HasCheckConstraint("CK_Reviews_Rating", "[Rating] BETWEEN 1 AND 5"));
+
+                entity.Property(r => r.Rating)
+                    .IsRequired();
+
+                entity.Property(r => r.Comment)
+                    .HasMaxLength(1000);
+
+                entity.Property(r => r.CreatedAt)
+                    .IsRequired();
+
+                // Deleting a product or a user removes their reviews
+                entity.HasOne(r => r.Product)
+                    .WithMany()
+                    .HasForeignKey(r => r.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(r => r.User)
+                    .WithMany()
+                    .HasForeignKey(r => r.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                // One review per user per product
+                entity.HasIndex(r => new { r.ProductId, r.UserId })
+                    .IsUnique();
+
+                entity.HasIndex(r => r.UserId);
             });
         }
     }
