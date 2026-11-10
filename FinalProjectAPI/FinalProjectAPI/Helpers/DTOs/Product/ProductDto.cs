@@ -15,5 +15,9 @@ namespace FinalProjectAPI.Helpers.DTOs.Product
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public List<ProductImageDto> Images { get; set; } = new List<ProductImageDto>();
+
+        // Filled by ProductService from the Reviews table; 0 when there are no reviews
+        public double AverageRating { get; set; }
+        public int ReviewCount { get; set; }
     }
 }

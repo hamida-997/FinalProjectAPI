@@ -29,7 +29,9 @@ namespace FinalProjectAPI.Helpers.Mappings
 
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : string.Empty))
-                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.ProductImages));
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.ProductImages))
+                .ForMember(dest => dest.AverageRating, opt => opt.Ignore())
+                .ForMember(dest => dest.ReviewCount, opt => opt.Ignore());
 
             CreateMap<CreateProductDto, Product>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))

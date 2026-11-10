@@ -25,7 +25,7 @@ namespace FinalProjectAPI.Services
                 .OrderBy(p => p.Name)
                 .ToListAsync();
 
-            return _mapper.Map<IEnumerable<ProductDto>>(products);
+            return await WithRatingsAsync(_mapper.Map<List<ProductDto>>(products));
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(int categoryId)
@@ -37,7 +37,7 @@ namespace FinalProjectAPI.Services
                 .OrderBy(p => p.Name)
                 .ToListAsync();
 
-            return _mapper.Map<IEnumerable<ProductDto>>(products);
+            return await WithRatingsAsync(_mapper.Map<List<ProductDto>>(products));
         }
 
         public async Task<ProductDto?> GetProductByIdAsync(int id)
@@ -47,7 +47,12 @@ namespace FinalProjectAPI.Services
                 .Include(p => p.ProductImages)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-            return product == null ? null : _mapper.Map<ProductDto>(product);
+            if (product == null)
+                return null;
+
+            var dto = _mapper.Map<ProductDto>(product);
+            await WithRatingsAsync(new List<ProductDto> { dto });
+            return dto;
         }
 
         public async Task<ProductDto> CreateProductAsync(CreateProductDto createDto)
@@ -78,7 +83,9 @@ namespace FinalProjectAPI.Services
 
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<ProductDto>(product);
+            var dto = _mapper.Map<ProductDto>(product);
+            await WithRatingsAsync(new List<ProductDto> { dto });
+            return dto;
         }
 
         public async Task<bool> DeleteProductAsync(int id)
@@ -96,6 +103,37 @@ namespace FinalProjectAPI.Services
         public async Task<bool> ProductExistsAsync(int id)
         {
             return await _context.Products.AnyAsync(p => p.Id == id);
+        }
+
+        // One grouped query for all products in the list, instead of one query per product
+        private async Task<List<ProductDto>> WithRatingsAsync(List<ProductDto> products)
+        {
+            if (products.Count == 0)
+                return products;
+
+            var ids = products.Select(p => p.Id).ToList();
+
+            var stats = await _context.Reviews
+                .Where(r => ids.Contains(r.ProductId))
+                .GroupBy(r => r.ProductId)
+                .Select(g => new
+                {
+                    ProductId = g.Key,
+                    Count = g.Count(),
+                    Average = g.Average(r => (double)r.Rating)
+                })
+                .ToDictionaryAsync(s => s.ProductId);
+
+            foreach (var product in products)
+            {
+                if (stats.TryGetValue(product.Id, out var s))
+                {
+                    product.ReviewCount = s.Count;
+                    product.AverageRating = Math.Round(s.Average, 1);
+                }
+            }
+
+            return products;
         }
     }
 }
