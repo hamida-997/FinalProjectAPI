@@ -5,6 +5,7 @@ using FinalProjectAPI.Entities;
 using FinalProjectAPI.Helpers.DTOs.Auth;
 using FinalProjectAPI.Helpers.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FinalProjectAPI.Services
@@ -14,15 +15,21 @@ namespace FinalProjectAPI.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<AuthService> _logger;
 
         public AuthService(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IEmailService emailService,
+            ILogger<AuthService> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
@@ -71,34 +78,97 @@ namespace FinalProjectAPI.Services
                 };
             }
 
-            // Assign SuperAdmin role to new user
-            // TODO: Change this to UserRole.Customer after your SuperAdmin account is created
-            var assignedRole = UserRole.SuperAdmin.ToString();
+            // Assign Customer role to new user
+            var assignedRole = UserRole.Customer.ToString();
             await _userManager.AddToRoleAsync(user, assignedRole);
 
-            var userRoles = new List<string> { assignedRole };
-            var token = GenerateJwtToken(user, userRoles);
-            var expiresAt = DateTime.UtcNow.AddMinutes(
-                Convert.ToDouble(_configuration["JwtSettings:ExpirationInMinutes"] ?? "60"));
+            // No login token yet: the user must confirm their email first
+            var sent = await SendConfirmationEmailAsync(user);
 
             return new AuthResponseDto
             {
                 IsSuccess = true,
-                Message = "Registration successful.",
-                Token = token,
-                ExpiresAt = expiresAt,
-                User = new UserInfoDto
-                {
-                    Id = user.Id,
-                    UserName = user.UserName ?? string.Empty,
-                    Email = user.Email ?? string.Empty,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    Address = user.Address,
-                    Roles = userRoles
-                }
+                RequiresEmailConfirmation = true,
+                Message = sent
+                    ? "Registration successful. Please check your email to confirm your account."
+                    : "Your account was created, but we couldn't send the confirmation email. Please use 'Resend confirmation email'."
             };
+        }
+
+        public async Task<AuthResponseDto> ConfirmEmailAsync(string userId, string token)
+        {
+            var invalid = new AuthResponseDto
+            {
+                IsSuccess = false,
+                Message = "This confirmation link is invalid or has expired. Please request a new one."
+            };
+
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+                return invalid;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return invalid;
+
+            if (user.EmailConfirmed)
+                return new AuthResponseDto { IsSuccess = true, Message = "Your email is already confirmed. You can log in." };
+
+            string decodedToken;
+            try
+            {
+                decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+            }
+            catch (FormatException)
+            {
+                return invalid;
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+            if (!result.Succeeded)
+                return invalid;
+
+            return new AuthResponseDto { IsSuccess = true, Message = "Your email is confirmed. You can now log in." };
+        }
+
+        public async Task ResendConfirmationAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null || user.EmailConfirmed || !user.IsActive)
+                return;
+
+            await SendConfirmationEmailAsync(user);
+        }
+
+        private async Task<bool> SendConfirmationEmailAsync(AppUser user)
+        {
+            var mvcBaseUrl = (_configuration["AppSettings:MvcBaseUrl"] ?? "https://localhost:7069").TrimEnd('/');
+
+            // Identity tokens contain + / = which break in URLs, so Base64Url-encode them
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var link = $"{mvcBaseUrl}/Auth/ConfirmEmail?userId={Uri.EscapeDataString(user.Id)}&token={encodedToken}";
+
+            var name = System.Net.WebUtility.HtmlEncode(user.FirstName);
+            var body = $@"
+                <div style=""font-family: Arial, sans-serif; max-width: 520px; margin: auto; color: #333;"">
+                    <h2 style=""color: #8B4513;"">Welcome to Caramellize, {name}!</h2>
+                    <p>Please confirm your email address to activate your account.</p>
+                    <p style=""margin: 30px 0;"">
+                        <a href=""{link}"" style=""background: #8B4513; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;"">
+                            Confirm my email
+                        </a>
+                    </p>
+                    <p style=""font-size: 13px; color: #777;"">If the button doesn't work, copy this link into your browser:<br>{link}</p>
+                    <p style=""font-size: 13px; color: #777;"">The link expires in 24 hours. If you didn't create an account, you can ignore this email.</p>
+                </div>";
+
+            var sent = await _emailService.SendEmailAsync(user.Email!, $"{user.FirstName} {user.LastName}".Trim(),
+                "Confirm your Caramellize account", body);
+
+            if (!sent)
+                _logger.LogError("Confirmation email to user {UserId} could not be sent", user.Id);
+
+            return sent;
         }
 
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
@@ -139,6 +209,17 @@ namespace FinalProjectAPI.Services
                 {
                     IsSuccess = false,
                     Message = "Invalid email or password."
+                };
+            }
+
+            // Checked after the password so this message never reveals an account to a stranger
+            if (!user.EmailConfirmed)
+            {
+                return new AuthResponseDto
+                {
+                    IsSuccess = false,
+                    EmailNotConfirmed = true,
+                    Message = "Please confirm your email before logging in. Check your inbox (and spam folder)."
                 };
             }
 

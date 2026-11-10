@@ -68,11 +68,13 @@ namespace FinalProjectAPI.Controllers
 
         [HttpPost("Upload")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public async Task<ActionResult<ProductImageDto>> UploadProductImage(
-            [FromForm] IFormFile file,
-            [FromForm] int productId,
-            [FromForm] bool isPrimary = false)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<ProductImageDto>> UploadProductImage([FromForm] UploadProductImageDto form)
         {
+            var file = form.File;
+            var productId = form.ProductId;
+            var isPrimary = form.IsPrimary;
+
             if (file == null || file.Length == 0)
             {
                 return BadRequest(new { message = "No file was provided." });

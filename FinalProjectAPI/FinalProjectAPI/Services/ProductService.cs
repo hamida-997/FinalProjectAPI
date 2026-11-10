@@ -10,11 +10,13 @@ namespace FinalProjectAPI.Services
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
 
-        public ProductService(AppDbContext context, IMapper mapper)
+        public ProductService(AppDbContext context, IMapper mapper, IFileService fileService)
         {
             _context = context;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
@@ -90,12 +92,29 @@ namespace FinalProjectAPI.Services
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .Include(p => p.ProductImages)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
                 return false;
 
+            // Order items reference the product (Restrict), so deleting would fail with a 500
+            if (await _context.OrderItems.AnyAsync(oi => oi.ProductId == id))
+            {
+                throw new InvalidOperationException(
+                    $"'{product.Name}' appears in past orders, so it can't be deleted. Untick \"Available for sale\" to hide it instead.");
+            }
+
+            var imageUrls = product.ProductImages.Select(i => i.ImageUrl).ToList();
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+
+            // Image rows are removed by cascade; also remove the files from wwwroot
+            foreach (var url in imageUrls.Where(u => u.StartsWith("/uploads/")))
+            {
+                _fileService.DeleteFile(url);
+            }
 
             return true;
         }

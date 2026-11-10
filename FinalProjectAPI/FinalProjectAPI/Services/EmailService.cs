@@ -7,10 +7,12 @@ namespace FinalProjectAPI.Services
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<bool> SendEmailAsync(string toEmail, string subject, string htmlBody)
@@ -54,8 +56,10 @@ namespace FinalProjectAPI.Services
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                // e.g. wrong Gmail app password -> AuthenticationException
+                _logger.LogError(ex, "Failed to send email '{Subject}' to {Email}", subject, toEmail);
                 return false;
             }
         }

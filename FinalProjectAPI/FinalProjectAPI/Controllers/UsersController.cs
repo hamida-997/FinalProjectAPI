@@ -113,11 +113,14 @@ namespace FinalProjectAPI.Controllers
 
             var user = _mapper.Map<AppUser>(createUserDto);
 
+            // Created by an admin, so no confirmation email is needed to log in
+            user.EmailConfirmed = true;
+
             var result = await _userManager.CreateAsync(user, createUserDto.Password);
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { message = "Failed to create user", errors = result.Errors });
+                return IdentityError("Failed to create user.", result);
             }
 
             // Add roles
@@ -155,6 +158,23 @@ namespace FinalProjectAPI.Controllers
                 }
             }
 
+            // Don't let an admin lock themselves out of the admin panel
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId == id)
+            {
+                var keepsAdmin = updateUserDto.Roles.Any(r =>
+                    r.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                    r.Equals("SuperAdmin", StringComparison.OrdinalIgnoreCase));
+                if (!keepsAdmin)
+                {
+                    return BadRequest(new { message = "You cannot remove your own admin role." });
+                }
+                if (!updateUserDto.IsActive)
+                {
+                    return BadRequest(new { message = "You cannot disable your own account." });
+                }
+            }
+
             // Update basic properties
             _mapper.Map(updateUserDto, user);
 
@@ -162,7 +182,7 @@ namespace FinalProjectAPI.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { message = "Failed to update user", errors = result.Errors });
+                return IdentityError("Failed to update user.", result);
             }
 
             // Update roles
@@ -195,7 +215,7 @@ namespace FinalProjectAPI.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { message = "Failed to delete user", errors = result.Errors });
+                return IdentityError("Failed to delete user.", result);
             }
 
             return NoContent();
@@ -223,7 +243,7 @@ namespace FinalProjectAPI.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { message = "Failed to change password", errors = result.Errors });
+                return IdentityError("Failed to change password.", result);
             }
 
             return Ok(new { message = "Password changed successfully" });
@@ -254,10 +274,17 @@ namespace FinalProjectAPI.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { message = "Failed to update user status", errors = result.Errors });
+                return IdentityError("Failed to update user status.", result);
             }
 
             return Ok(new { isActive = user.IsActive });
+        }
+
+        // Clients read "message" first, so put Identity's reasons (e.g. password rules) in it
+        private BadRequestObjectResult IdentityError(string prefix, IdentityResult result)
+        {
+            var reasons = string.Join(" ", result.Errors.Select(e => e.Description));
+            return BadRequest(new { message = string.IsNullOrEmpty(reasons) ? prefix : $"{prefix} {reasons}", errors = result.Errors });
         }
 
         // GET: api/Users/roles

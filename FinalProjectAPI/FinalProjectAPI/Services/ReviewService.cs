@@ -22,6 +22,16 @@ namespace FinalProjectAPI.Services
                 .ToListAsync();
         }
 
+        // For the home page: good reviews (4-5 stars) that have a comment, newest first
+        public async Task<IEnumerable<ReviewDto>> GetFeaturedReviewsAsync(int count)
+        {
+            return await ProjectToDto(_context.Reviews.Where(r =>
+                    r.Rating >= 4 && r.Comment != null && r.Comment != ""))
+                .OrderByDescending(r => r.CreatedAt)
+                .Take(count)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<ReviewDto>> GetAllReviewsAsync(int? productId = null)
         {
             var query = _context.Reviews.AsQueryable();

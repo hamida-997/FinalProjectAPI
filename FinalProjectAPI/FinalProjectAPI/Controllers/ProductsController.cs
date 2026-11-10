@@ -96,14 +96,21 @@ namespace FinalProjectAPI.Controllers
         [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var result = await _productService.DeleteProductAsync(id);
-
-            if (!result)
+            try
             {
-                return NotFound(new { message = $"Product with ID {id} not found." });
-            }
+                var result = await _productService.DeleteProductAsync(id);
 
-            return NoContent();
+                if (!result)
+                {
+                    return NotFound(new { message = $"Product with ID {id} not found." });
+                }
+
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

@@ -7,6 +7,12 @@ namespace FinalProjectAPI.Helpers.DTOs.Auth
         public string? Token { get; set; }
         public DateTime? ExpiresAt { get; set; }
         public UserInfoDto? User { get; set; }
+
+        // Register: account created, user must click the email link before logging in
+        public bool RequiresEmailConfirmation { get; set; }
+
+        // Login: correct password, but the email isn't confirmed yet
+        public bool EmailNotConfirmed { get; set; }
     }
 
     public class UserInfoDto

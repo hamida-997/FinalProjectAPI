@@ -45,8 +45,15 @@ namespace FinalProjectAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var category = await _categoryService.CreateCategoryAsync(createDto);
-            return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, category);
+            try
+            {
+                var category = await _categoryService.CreateCategoryAsync(createDto);
+                return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, category);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
@@ -58,7 +65,15 @@ namespace FinalProjectAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var category = await _categoryService.UpdateCategoryAsync(id, updateDto);
+            CategoryDto? category;
+            try
+            {
+                category = await _categoryService.UpdateCategoryAsync(id, updateDto);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
 
             if (category == null)
             {
@@ -72,14 +87,21 @@ namespace FinalProjectAPI.Controllers
         [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var result = await _categoryService.DeleteCategoryAsync(id);
-
-            if (!result)
+            try
             {
-                return NotFound(new { message = $"Category with ID {id} not found." });
-            }
+                var result = await _categoryService.DeleteCategoryAsync(id);
 
-            return NoContent();
+                if (!result)
+                {
+                    return NotFound(new { message = $"Category with ID {id} not found." });
+                }
+
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

@@ -27,6 +27,15 @@ namespace FinalProjectAPI.Controllers
             return Ok(reviews);
         }
 
+        // GET: api/Reviews/featured?count=3  (public, for the home page)
+        [HttpGet("featured")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetFeaturedReviews([FromQuery] int count = 3)
+        {
+            var reviews = await _reviewService.GetFeaturedReviewsAsync(Math.Clamp(count, 1, 12));
+            return Ok(reviews);
+        }
+
         // GET: api/Reviews/5  (public)
         [HttpGet("{id:int}")]
         [AllowAnonymous]

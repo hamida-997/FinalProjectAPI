@@ -5,6 +5,7 @@ namespace FinalProjectAPI.Services
     public interface IReviewService
     {
         Task<IEnumerable<ReviewDto>> GetReviewsForProductAsync(int productId);
+        Task<IEnumerable<ReviewDto>> GetFeaturedReviewsAsync(int count);
 
         // Admin list, optionally filtered by product
         Task<IEnumerable<ReviewDto>> GetAllReviewsAsync(int? productId = null);

@@ -59,7 +59,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+// AutoMapper 16 registers itself; the old AutoMapper.Extensions.Microsoft.DependencyInjection
+// package (v12) is incompatible with it and crashed every request that used IMapper.
+builder.Services.AddAutoMapper(cfg => { }, typeof(Program).Assembly);
 
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection(StripeSettings.SectionName));
 
