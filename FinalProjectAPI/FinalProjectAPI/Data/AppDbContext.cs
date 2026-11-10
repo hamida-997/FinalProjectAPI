@@ -16,6 +16,7 @@ namespace FinalProjectAPI.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<DiscountCode> DiscountCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -237,6 +238,52 @@ namespace FinalProjectAPI.Data
                     .IsUnique();
 
                 entity.HasIndex(r => r.UserId);
+            });
+
+            modelBuilder.Entity<DiscountCode>(entity =>
+            {
+                entity.HasKey(d => d.Id);
+
+                entity.ToTable(t =>
+                {
+                    t.HasCheckConstraint("CK_DiscountCodes_Value", "[Value] > 0");
+                    // Type 0 = Percentage: at most 100%
+                    t.HasCheckConstraint("CK_DiscountCodes_Percentage", "[Type] <> 0 OR [Value] <= 100");
+                    t.HasCheckConstraint("CK_DiscountCodes_UsedCount", "[UsedCount] >= 0");
+                    t.HasCheckConstraint("CK_DiscountCodes_MaxUses", "[MaxUses] IS NULL OR [MaxUses] > 0");
+                    t.HasCheckConstraint("CK_DiscountCodes_MinOrderAmount", "[MinOrderAmount] IS NULL OR [MinOrderAmount] >= 0");
+                });
+
+                entity.Property(d => d.Code)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(d => d.Description)
+                    .HasMaxLength(200);
+
+                entity.Property(d => d.Type)
+                    .IsRequired()
+                    .HasConversion<int>();
+
+                entity.Property(d => d.Value)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(d => d.MinOrderAmount)
+                    .HasColumnType("decimal(18,2)");
+
+                entity.Property(d => d.UsedCount)
+                    .IsRequired()
+                    .HasDefaultValue(0);
+
+                entity.Property(d => d.IsActive)
+                    .HasDefaultValue(true);
+
+                entity.Property(d => d.CreatedAt)
+                    .IsRequired();
+
+                entity.HasIndex(d => d.Code)
+                    .IsUnique();
             });
         }
     }

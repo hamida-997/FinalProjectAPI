@@ -148,6 +148,73 @@ namespace FinalProjectAPI.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("FinalProjectAPI.Entities.DiscountCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<int?>("MaxUses")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("MinOrderAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UsedCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("DiscountCodes", t =>
+                        {
+                            t.HasCheckConstraint("CK_DiscountCodes_MaxUses", "[MaxUses] IS NULL OR [MaxUses] > 0");
+
+                            t.HasCheckConstraint("CK_DiscountCodes_MinOrderAmount", "[MinOrderAmount] IS NULL OR [MinOrderAmount] >= 0");
+
+                            t.HasCheckConstraint("CK_DiscountCodes_Percentage", "[Type] <> 0 OR [Value] <= 100");
+
+                            t.HasCheckConstraint("CK_DiscountCodes_UsedCount", "[UsedCount] >= 0");
+
+                            t.HasCheckConstraint("CK_DiscountCodes_Value", "[Value] > 0");
+                        });
+                });
+
             modelBuilder.Entity("FinalProjectAPI.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
